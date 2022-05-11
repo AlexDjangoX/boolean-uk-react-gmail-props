@@ -15,6 +15,12 @@ const Emails = () => {
   const [emailVisible, setEmailVisible] = useState(false);
   const [singleEmail, setSingleEmail] = useState(null);
 
+  const [searchInput, setSearchInput] = useState("");
+
+  const setSearchValue = (searchInput) => {
+    setSearchInput(searchInput);
+  };
+
   const showEmail = (email) => {
     setSingleEmail(email);
     setEmailVisible(true);
@@ -52,9 +58,19 @@ const Emails = () => {
   if (currentTab === "starred")
     filteredEmails = getStarredEmails(filteredEmails);
 
+  if (searchInput.length > 0) {
+    filteredEmails = [];
+    emails.forEach((el) => {
+      console.log(el.title.split(" "));
+      console.log(searchInput);
+      console.log(el.title.split(" ").includes(searchInput));
+      if (el.title.split(" ").includes(searchInput)) filteredEmails.push(el);
+      console.log(filteredEmails);
+    });
+  }
   return (
     <div className="app">
-      <Header />
+      <Header setSearchValue={setSearchValue} />
       <Navigation
         currentTab={currentTab}
         unreadEmails={unreadEmails}
